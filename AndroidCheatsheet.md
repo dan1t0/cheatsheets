@@ -88,6 +88,8 @@ unzip –q <APK_name>.apk
 Convert classes.dex into a JAR file
 ```sh
 d2j-dex2jar classes.dex
+or
+jadx --export-gradle --deobf --show-bad-code -d <outputdir> <file.apk> //Usefull to get all the code (sometimes inconsistent code)
 ```
 
 Open JAR file using a Java decompiler
