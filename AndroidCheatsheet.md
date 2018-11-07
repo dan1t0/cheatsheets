@@ -42,6 +42,16 @@ Uninstall an application
 adb uninstall com.example.appication
 ```
 
+List applications installed
+```sh
+adb shell pm list packages
+```
+
+Get the path of an installed application
+```sh
+adb shell pm path <app_name>
+```
+
 Extract files from the device
 ```sh
 adb pull <remote> <local>
