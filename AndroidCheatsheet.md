@@ -168,6 +168,49 @@ keytool -keystore apache.bks -storetype BKS -providerClass org.bouncycastle.jce.
 ```
 
 
+How to createa new self-signed certificate and keystore for BurpSuite
+(https://unix.stackexchange.com/questions/347116/how-to-create-keystore-and-truststore-using-self-signed-certificate)
+```sh
+#1. Generate a private RSA key
+openssl genrsa -out diagserverCA.key 2048
+
+#2. Create a x509 certificate
+openssl req -x509 -new -nodes -key diagserverCA.key -sha256 -days 500 -out diagserverCA.pem
+
+#3. Create a PKCS12 keystore from private key and public certificate.
+openssl pkcs12 -export -name server-cert -in diagserverCA.pem -inkey diagserverCA.key -out serverkeystore.p12
+
+#4. Convert PKCS12 keystore into a JKS keystore
+keytool -importkeystore -destkeystore server.keystore -srckeystore serverkeystore.p12 -srcstoretype pkcs12 -alias server-cert
+
+#5. Import a client's certificate to the server's trust store.
+keytool -import -alias client-cert -file diagclientCA.pem -keystore server.truststore
+
+#6. Import a server's certificate to the server's trust store.
+keytool -import -alias server-cert -file diagserverCA.pem -keystore server.truststore
+```
+
+How to Install Burp CA as a system-level trusted CA
+(https://blog.ropnop.com/configuring-burp-suite-with-android-nougat/)
+1. Get the Burp Suite CA in DER format (cacert.der)
+2. Use openssl to convert DER to PEM and rename it with the subject_hash_old as name:
+```sh
+openssl x509 -inform DER -in cacert.der -out cacert.pem  
+openssl x509 -inform PEM -subject_hash_old -in cacert.pem |head -1  
+mv cacert.pem <hash>.0  
+```
+3. Move the certificate to the device and install it (root required)
+```sh
+adb root  
+adb remount  
+adb push <cert>.0 /sdcard/
+adb shell
+mv /sdcard/<cert>.0 /system/etc/security/cacerts/  
+chmod 644 /system/etc/security/cacerts/<cert>.0
+reboot
+```
+
+
 TO DEBUG
 ```sh
 #Get the PID
