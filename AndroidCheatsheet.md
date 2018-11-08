@@ -27,9 +27,14 @@ adb shell netcfg
 adb shell ifconfig
 ```
 
+dsadsas
+```sh
+adb logcat | grep "$(adb shell ps | grep <package-name> | awk '{print $2}')"
+```
+
 Access to a device (for multiple devices)
 ```sh
-adb -s <device name> shell
+adb -s <device-name> shell
 ```
 
 Install an application
@@ -49,7 +54,7 @@ adb shell pm list packages
 
 Get the path of an installed application
 ```sh
-adb shell pm path <app_name>
+adb shell pm path <package-name>
 ```
 
 Extract files from the device
@@ -197,28 +202,28 @@ dz> run app.package.list
 
 Provide details on the targeted package
 ```sh
-dz> run app.package.info –a <package_name>
+dz> run app.package.info –a <package-name>
 ```
 
 Identify exported components by the application
 ```sh
-dz> run app.package.attacksurface <package_name>
+dz> run app.package.attacksurface <package-name>
 ```
 
 Get exported activities
 ```sh
-dz> run app.activity.info -a <package_name>
+dz> run app.activity.info -a <package-name>
 ```
 
 Start activity with weak permissions
 ```sh
-dz> run app.activity.start –-component <package> <package.activity_name>
+dz> run app.activity.start –-component <package-name> <package.activity_name>
 (adb shell) am start –m app.activity.start./ActivityName
 ```
 
 Get exported services
 ```sh
-dz> run app.service.info -a <package_name>
+dz> run app.service.info -a <package-name>
 ```
 
 Interact with services
@@ -231,7 +236,7 @@ dz> run app.service.stop –-component <package> <package.service_name>
 
 Get exported receivers
 ```sh
-dz> run app.broadcast.info -a <package_name>
+dz> run app.broadcast.info -a <package-name>
 ```
 
 Interact with receivers
@@ -252,7 +257,7 @@ dz> run app.provider.query <URI>
 
 Get the content provider’s information available
 ```sh
-dz> run app.provider.info -a <package_name>
+dz> run app.provider.info -a <package-name>
 ```
 
 SQL injection module scanner
