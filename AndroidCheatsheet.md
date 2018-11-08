@@ -5,6 +5,7 @@ List the emulators available
 ```sh
 android list avd
 ```
+
 Launch the emulator through a proxy
 ```sh
 emulator -avd nameofvirtualdevice -http-proxy localhost:8080 -debug-proxy
@@ -21,15 +22,9 @@ adb shell
 ```
 
 Get the mobile phone/ emulator IP
-
 ```sh
 adb shell netcfg 
 adb shell ifconfig
-```
-
-dsadsas
-```sh
-adb logcat | grep "$(adb shell ps | grep <package-name> | awk '{print $2}')"
 ```
 
 Access to a device (for multiple devices)
@@ -69,9 +64,7 @@ adb push <local> <remote>
 
 Extract the device’s log
 ```sh
-adb logcat
-	adb shell 'ps | grep <app_name>' | awk '{print $2}'
-	adb logcat | grep <process PID>
+adb logcat | grep "$(adb shell ps | grep <package-name> | awk '{print $2}')"
 ```
 
 Additional logs
@@ -167,7 +160,6 @@ Add certificate (cacert.crt) to a keystore (apache.bks)
 keytool -keystore apache.bks -storetype BKS -providerClass org.bouncycastle.jce.provider.BouncyCastleProvider -providerpath bcprov-jdk15on-146.jar -importcert -v -trustcacerts -file cacert.crt -alias test
 ```
 
-
 How to createa new self-signed certificate and keystore for BurpSuite
 (https://unix.stackexchange.com/questions/347116/how-to-create-keystore-and-truststore-using-self-signed-certificate)
 ```sh
@@ -210,8 +202,7 @@ chmod 644 /system/etc/security/cacerts/<cert>.0
 reboot
 ```
 
-
-TO DEBUG
+How to Debug
 ```sh
 #Get the PID
 adb shell 'ps | grep <app_name>' | awk '{print $2}'
@@ -221,6 +212,8 @@ adb forward tcp:8765 jdwp:<PID>
 jdb -connect com.sun.jdi.SocketAttach:hostname=localhost,port=8765
 ```
 
+## Using Drozer
+(https://labs.mwrinfosecurity.com/tools/drozer/)
 
 Shows devices availables
 ```sh
@@ -332,4 +325,3 @@ Download files
 ```sh
 dz> run app.provider.download <URI>/<path_to_file> <local_folder>
 ```
-
