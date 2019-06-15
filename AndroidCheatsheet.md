@@ -160,7 +160,7 @@ Add certificate (cacert.crt) to a keystore (apache.bks)
 keytool -keystore apache.bks -storetype BKS -providerClass org.bouncycastle.jce.provider.BouncyCastleProvider -providerpath bcprov-jdk15on-146.jar -importcert -v -trustcacerts -file cacert.crt -alias test
 ```
 
-How to createa new self-signed certificate and keystore for BurpSuite
+How to create a new self-signed certificate and keystore for BurpSuite
 (https://unix.stackexchange.com/questions/347116/how-to-create-keystore-and-truststore-using-self-signed-certificate)
 ```sh
 #1. Generate a private RSA key
@@ -193,8 +193,10 @@ mv cacert.pem <hash>.0
 ```
 3. Move the certificate to the device and install it (root required)
 ```sh
-adb root  
-adb remount  
+adb shell
+su
+mount -o rw,remount /system  
+exit
 adb push <cert>.0 /sdcard/
 adb shell
 mv /sdcard/<cert>.0 /system/etc/security/cacerts/  
